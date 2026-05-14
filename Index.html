@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PortfolioHUB | Meu Portfólio Profissional</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --pink: #e91e8c;
+      --dark: #0d0d0d;
+      --card: #141414;
+      --border: #2a2a2a;
+      --text: #e8e8e8;
+      --muted: #888;
+      --accent: #ff4db8;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--dark);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      overflow-x: hidden;
+    }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 4rem;
+      background: rgba(13,13,13,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+    }
+
+    .nav-logo { font-family: 'Space Mono', monospace; font-size: 1rem; color: var(--pink); }
+    .nav-logo span { color: var(--text); }
+    nav ul { display: flex; gap: 2.5rem; list-style: none; }
+    nav ul li a { color: var(--muted); text-decoration: none; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; transition: color 0.2s; }
+    nav ul li a:hover { color: var(--pink); }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8rem 4rem 4rem;
+      position: relative;
+    }
+
+    .hero-tag {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--pink);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .hero-tag::before { content: ''; display: block; width: 40px; height: 1px; background: var(--pink); }
+
+    .hero h1 { font-size: clamp(3rem, 8vw, 7rem); font-weight: 800; line-height: 0.95; letter-spacing: -0.03em; margin-bottom: 2rem; }
+    .hero h1 em { font-style: normal; color: var(--pink); }
+    .hero h1 .outline { -webkit-text-stroke: 1px var(--text); color: transparent; }
+
+    .hero-desc { max-width: 560px; font-size: 1.05rem; color: var(--muted); line-height: 1.7; margin-bottom: 3rem; }
+
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.9rem 2rem; border-radius: 4px;
+      font-family: 'Space Mono', monospace; font-size: 0.8rem;
+      font-weight: 700; cursor: pointer; transition: all 0.2s; text-decoration: none;
+    }
+    .btn-primary { background: var(--pink); color: #fff; border: 2px solid var(--pink); }
+    .btn-primary:hover { background: var(--accent); transform: translateY(-2px); }
+    .btn-outline { background: transparent; color: var(--text); border: 2px solid var(--border); }
+    .btn-outline:hover { border-color: var(--pink); color: var(--pink); transform: translateY(-2px); }
+
+    .hero-stats { display: flex; gap: 3rem; margin-top: 5rem; padding-top: 3rem; border-top: 1px solid var(--border); }
+    .stat-item { display: flex; flex-direction: column; gap: 0.3rem; }
+    .stat-num { font-size: 2.2rem; font-weight: 800; color: var(--pink); font-family: 'Space Mono', monospace; }
+    .stat-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; }
+
+    section { padding: 6rem 4rem; }
+
+    .section-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 3.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+    .section-num { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--pink); display: block; margin-bottom: 0.5rem; }
+    .section-title { font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 800; }
+
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.5px; }
+
+    .project-card { background: var(--card); border: 1px solid var(--border); padding: 2rem; transition: all 0.3s; position: relative; overflow: hidden; }
+    .project-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--pink); transform: scaleX(0); transform-origin: left; transition: transform 0.3s; }
+    .project-card:hover::before { transform: scaleX(1); }
+    .project-card:hover { background: #1a1a1a; transform: translateY(-4px); }
+
+    .project-tag { display: inline-block; padding: 0.25rem 0.75rem; border: 1px solid var(--border); border-radius: 2px; font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--muted); text-transform: uppercase; margin-bottom: 1.2rem; }
+    .project-tag.academic { border-color: rgba(233,30,140,0.4); color: var(--pink); }
+    .project-tag.personal { border-color: rgba(100,200,255,0.4); color: #64c8ff; }
+    .project-tag.web { border-color: rgba(100,255,150,0.4); color: #64ff96; }
+
+    .project-card h3 { font-size: 1.25rem; font-weight: 800; margin-bottom: 0.75rem; }
+    .project-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.6; margin-bottom: 1.5rem; }
+    .project-footer { display: flex; align-items: center; justify-content: space-between; font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--muted); }
+    .project-version { padding: 0.2rem 0.5rem; background: rgba(233,30,140,0.1); border-radius: 2px; color: var(--pink); }
+    .project-link { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .project-link:hover { color: var(--pink); }
+
+    .skills-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+    .skill-group h3 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--pink); font-family: 'Space Mono', monospace; margin-bottom: 1.5rem; }
+    .skill-item { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.2rem; }
+    .skill-header { display: flex; justify-content: space-between; font-size: 0.9rem; }
+    .skill-pct { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--pink); }
+    .skill-bar { height: 3px; background: var(--border); border-radius: 1px; overflow: hidden; }
+    .skill-fill { height: 100%; background: linear-gradient(90deg, var(--pink), var(--accent)); }
+
+    .readme-box { background: var(--card); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+    .readme-header { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; background: #1a1a1a; border-bottom: 1px solid var(--border); }
+    .readme-dot { width: 12px; height: 12px; border-radius: 50%; }
+    .readme-dot:nth-child(1) { background: #ff5f56; }
+    .readme-dot:nth-child(2) { background: #ffbd2e; }
+    .readme-dot:nth-child(3) { background: #27c93f; }
+    .readme-filename { font-family: 'Space Mono', monospace; font-size: 0.8rem; color: var(--muted); }
+    .readme-content { padding: 2rem; font-family: 'Space Mono', monospace; font-size: 0.8rem; line-height: 1.8; color: #c9d1d9; }
+    .md-h1 { font-size: 1.3rem; color: #fff; font-weight: 700; margin-bottom: 0.5rem; }
+    .md-h2 { font-size: 1rem; color: #e8e8e8; font-weight: 700; margin: 1.5rem 0 0.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.3rem; }
+    .md-code { color: var(--pink); background: rgba(233,30,140,0.1); padding: 0.1em 0.4em; border-radius: 3px; }
+    .md-badge { display: inline-block; padding: 0.2em 0.6em; border-radius: 3px; font-size: 0.7rem; margin: 0.2rem; }
+    .badge-pink { background: rgba(233,30,140,0.2); color: var(--pink); border: 1px solid rgba(233,30,140,0.3); }
+    .badge-blue { background: rgba(100,200,255,0.1); color: #64c8ff; border: 1px solid rgba(100,200,255,0.3); }
+    .badge-green { background: rgba(100,255,150,0.1); color: #64ff96; border: 1px solid rgba(100,255,150,0.3); }
+    .md-li::before { content: '▸ '; color: var(--pink); }
+
+    .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1px; }
+    .contact-card { background: var(--card); border: 1px solid var(--border); padding: 2rem; text-decoration: none; color: var(--text); display: flex; flex-direction: column; gap: 1rem; transition: all 0.3s; }
+    .contact-card:hover { background: #1a1a1a; transform: translateY(-4px); border-color: var(--pink); }
+    .contact-icon { width: 44px; height: 44px; background: rgba(233,30,140,0.1); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+    .contact-card h3 { font-size: 1rem; font-weight: 800; }
+    .contact-card p { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+    .contact-arrow { font-size: 0.8rem; color: var(--pink); margin-top: auto; font-family: 'Space Mono', monospace; }
+
+    footer { padding: 3rem 4rem; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+    footer p { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--muted); }
+    .footer-logo { font-family: 'Space Mono', monospace; font-size: 0.9rem; color: var(--pink); }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      nav ul { display: none; }
+      section, .hero, footer { padding: 4rem 1.5rem; }
+      .skills-wrapper { grid-template-columns: 1fr; }
+      .hero-stats { gap: 2rem; flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo">Portfolio<span>HUB</span></div>
+    <ul>
+      <li><a href="#projetos">Projetos</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#readme">README</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-tag">Portfólio Profissional — Git & GitHub</div>
+    <h1>Meu<br><em>Portfólio</em><br><span class="outline">Digital</span></h1>
+    <p class="hero-desc">Projetos acadêmicos e pessoais versionados com Git, hospedados no GitHub e publicados via GitHub Pages.</p>
+    <div class="hero-cta">
+      <a href="https://github.com/Cadu39-espec" target="_blank" class="btn btn-primary">⬡ Ver no GitHub</a>
+      <a href="#projetos" class="btn btn-outline">→ Explorar Projetos</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><span class="stat-num">03</span><span class="stat-label">Projetos</span></div>
+      <div class="stat-item"><span class="stat-num">v1.0</span><span class="stat-label">Versão atual</span></div>
+      <div class="stat-item"><span class="stat-num">Git</span><span class="stat-label">Versionamento</span></div>
+    </div>
+  </section>
+
+  <section id="projetos">
+    <div class="section-header">
+      <div><span class="section-num">// 01</span><h2 class="section-title">Projetos</h2></div>
+      <a href="https://github.com/Cadu39-espec" target="_blank" class="btn btn-outline" style="font-size:0.75rem; padding:0.6rem 1.2rem;">Ver todos →</a>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card">
+        <span class="project-tag web">Web</span>
+        <h3>Portfólio Pessoal</h3>
+        <p>Página web com HTML, CSS e JavaScript para apresentar projetos, habilidades e contato profissional.</p>
+        <div class="project-footer"><span class="project-version">v1.0</span><a href="#" class="project-link">GitHub →</a></div>
+      </div>
+      <div class="project-card">
+        <span class="project-tag academic">Acadêmico</span>
+        <h3>Versionamento com Git</h3>
+        <p>Repositório demonstrando o fluxo completo: init, add, commit, push e pull com boas práticas.</p>
+        <div class="project-footer"><span class="project-version">v1.0</span><a href="#" class="project-link">GitHub →</a></div>
+      </div>
+      <div class="project-card">
+        <span class="project-tag personal">Pessoal</span>
+        <h3>GitHub Pages — Site Estático</h3>
+        <p>Publicação do portfólio via GitHub Pages, acessível publicamente em <span style="color:var(--pink)">Cadu39-espec.github.io</span>.</p>
+        <div class="project-footer"><span class="project-version">v1.0</span><a href="#" class="project-link">Ver site →</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" style="background:#0a0a0a;">
+    <div class="section-header"><div><span class="section-num">// 02</span><h2 class="section-title">Skills & Ferramentas</h2></div></div>
+    <div class="skills-wrapper">
+      <div class="skill-group">
+        <h3>Desenvolvimento</h3>
+        <div class="skill-item"><div class="skill-header"><span>HTML & CSS</span><span class="skill-pct">90%</span></div><div class="skill-bar"><div class="skill-fill" style="width:90%"></div></div></div>
+        <div class="skill-item"><div class="skill-header"><span>JavaScript</span><span class="skill-pct">70%</span></div><div class="skill-bar"><div class="skill-fill" style="width:70%"></div></div></div>
+        <div class="skill-item"><div class="skill-header"><span>Markdown</span><span class="skill-pct">85%</span></div><div class="skill-bar"><div class="skill-fill" style="width:85%"></div></div></div>
+      </div>
+      <div class="skill-group">
+        <h3>Versionamento & DevOps</h3>
+        <div class="skill-item"><div class="skill-header"><span>Git</span><span class="skill-pct">80%</span></div><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
+        <div class="skill-item"><div class="skill-header"><span>GitHub</span><span class="skill-pct">80%</span></div><div class="skill-bar"><div class="skill-fill" style="width:80%"></div></div></div>
+        <div class="skill-item"><div class="skill-header"><span>GitHub Pages</span><span class="skill-pct">75%</span></div><div class="skill-bar"><div class="skill-fill" style="width:75%"></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="readme">
+    <div class="section-header"><div><span class="section-num">// 03</span><h2 class="section-title">README.md</h2></div></div>
+    <div class="readme-box">
+      <div class="readme-header">
+        <div class="readme-dot"></div><div class="readme-dot"></div><div class="readme-dot"></div>
+        <span class="readme-filename">README.md</span>
+      </div>
+      <div class="readme-content">
+        <p class="md-h1">🚀 PortfolioHUB</p>
+        <p style="color:var(--muted); margin-bottom:1rem;">Repositório de projetos acadêmicos e pessoais com versionamento Git.</p>
+        <span class="md-badge badge-pink">versão 1.0</span>
+        <span class="md-badge badge-green">GitHub Pages ✓</span>
+        <span class="md-badge badge-blue">LinkedIn ✓</span>
+        <p class="md-h2">🛠️ Tecnologias</p>
+        <p class="md-li">HTML5, CSS3, JavaScript</p>
+        <p class="md-li">Git para versionamento local</p>
+        <p class="md-li">GitHub para hospedagem remota</p>
+        <p class="md-li">GitHub Pages para publicação</p>
+        <p class="md-h2">📬 Contato</p>
+        <p class="md-li">LinkedIn: <span class="md-code">Carlos Eduardo Francisco</span></p>
+        <p class="md-li">GitHub: <span class="md-code">github.com/Cadu39-espec</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contato" style="background:#0a0a0a;">
+    <div class="section-header"><div><span class="section-num">// 04</span><h2 class="section-title">Links & Contato</h2></div></div>
+    <div class="contact-grid">
+      <a href="https://github.com/Cadu39-espec" target="_blank" class="contact-card">
+        <div class="contact-icon">⬡</div>
+        <h3>GitHub</h3>
+        <p>Veja todos os repositórios, contribuições e histórico de commits.</p>
+        <span class="contact-arrow">github.com/Cadu39-espec →</span>
+      </a>
+      <a href="https://linkedin.com/in/carlos-eduardo-francisco" target="_blank" class="contact-card">
+        <div class="contact-icon">in</div>
+        <h3>LinkedIn</h3>
+        <p>Perfil profissional com projetos integrados e experiências.</p>
+        <span class="contact-arrow">Carlos Eduardo Francisco →</span>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">PortfolioHUB</div>
+    <p>Desenvolvido com Git + GitHub · v1.0 · 2026</p>
+    <p style="color:var(--pink);">github.com/Cadu39-espec</p>
+  </footer>
+
+</body>
+</html>
